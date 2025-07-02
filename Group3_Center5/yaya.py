@@ -1,10 +1,14 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="Hello",
-    page_icon="👋",
+st.title("Hello Streamlit-er 👋")
+st.markdown(
+    """ 
+    This is the intro page to our website for Center 5 Ito Campus for students to have fun. 
+
+    **There's :rainbow[so much] you can build!**
+     
+    """
 )
 
-st.write("# Welcome to 5goukan! 👋")
-
-st.sidebar.success("Select a demo above.")
+if st.button("Send balloons!"):
+    st.balloons()
