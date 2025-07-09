@@ -9,7 +9,7 @@ import streamlit as st
 import pandas as pd
 
 # CSV読み込み（Shift-JIS対応）
-df = pd.read_csv("./pages/data.csv", encoding="shift_jis")
+df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", encoding="shift_jis")
 
 st.title("センター5号館 3F 曜日別・教室別時間割")
 
