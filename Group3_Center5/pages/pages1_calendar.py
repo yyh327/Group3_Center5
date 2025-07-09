@@ -1,5 +1,5 @@
 import streamlit as st
-import streamlit_calendar as st_calendar
+from streamlit_calendar import calendar
 
 st.set_page_config(page_title="Calendar")
 
