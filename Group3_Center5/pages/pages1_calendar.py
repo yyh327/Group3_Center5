@@ -16,3 +16,7 @@ st.markdown(
 )
 
 st_calendar.calendar()
+
+components.iframe(
+    f"https://calendar.google.com/calendar/embed?src=ab02e25d2cbd99a78961c80f7fc34fc403f6372650bab1fcce7861e73704d2ea%40group.calendar.google.com&ctz=America%2FNew_York",
+    width=1200, height=800, scrolling=True)
