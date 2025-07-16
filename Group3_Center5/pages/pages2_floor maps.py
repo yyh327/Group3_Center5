@@ -15,7 +15,7 @@ st.title("センター5号館 曜日別・教室別時間割")
 
 # --- 地図画像表示 ---
 st.subheader("5号館3F 教室マップ")
-image = Image.open("pages/5goukan3F.jpg")  # 画像パスを適宜調整
+image = Image.open("/mount/src/group3_center5/Group3_Center5/pages/5goukan3F.jpg")  # 画像パスを適宜調整
 st.image(image, use_column_width=True)
 
 # --- 曜日選択 ---
