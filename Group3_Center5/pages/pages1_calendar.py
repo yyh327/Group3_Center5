@@ -42,7 +42,7 @@ def get_calendar_service():
     creds = load_token()
     flow = Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, SCOPES,
-        redirect_uri="http://localhost:8501/"
+        redirect_uri="https://group3center5-gnpekcrtfkawfet2ewfsi8.streamlit.app/pages1_calendar"
     )
     auth_url, _ = flow.authorization_url(prompt='consent')
 
