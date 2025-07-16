@@ -10,7 +10,7 @@ df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", enco
 st.title("センター5号館 教室検索")
 
 # --- 画面を左右に分割 ---
-spacer_col, left_col, right_col = st.columns([0.1, 0.6, 0.3])
+left_col, right_col = st.columns([ 0.6, 0.3])
 
 
 with left_col:
