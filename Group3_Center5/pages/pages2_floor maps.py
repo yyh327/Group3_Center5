@@ -21,11 +21,11 @@ with left_col:
 
     # --- 2. 教室リストと画像パス切り替え ---
     if selected_floor == "3F":
-        image_path = "/mount/src/group3_center5/Group3_Center5/pages/5goukan3F.jpg"
+        image_path = "/mount/src/group3_center5/Group3_Center5/pages/5goukan3F.png"
         room_list = ['5301', '5302', '5303', '5304', '5305', '5306', '5307', '5308',
                      '5309', '5310', '5311', '5312', '5313']
     else:
-        image_path = "/mount/src/group3_center5/Group3_Center5/pages/5goukan4F.jpg"
+        image_path = "/mount/src/group3_center5/Group3_Center5/pages/5goukan4F.png"
         room_list = ['5401', '5402', '5403', '5404', '5405', '5406', '5407', '5408',
                      '5409', '5410', '5411', '5412', '5413', '5414', '5415', '5416', '5417']
 
@@ -50,7 +50,7 @@ with left_col:
 with right_col:
     # --- 地図画像の表示（向き補正あり） ---
     image = ImageOps.exif_transpose(Image.open(image_path))
-    st.image(image, caption=f"センター5号館 {selected_floor}", width=400)
+    st.image(image, caption=f"センター5号館 {selected_floor}", use_container_width=True)
 
 # --- 5. 授業表示（画面下に全体表示） ---
 if room_clicked:
