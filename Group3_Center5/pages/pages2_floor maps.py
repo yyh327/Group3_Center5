@@ -69,7 +69,7 @@ with right_col:
 
 # --- 5. 授業表示（画面下に全体表示） ---
 if room_clicked:
-    st.success(f"✅{selected_floor} {room_clicked} を選択しました（{selected_day_jp}曜日）")
+    st.success(f"✅{selected_day_jp}曜日の {selected_floor} {room_clicked} を選択しました")
     
     filtered = df[
         (df["Day"] == selected_day_en) &
@@ -99,4 +99,4 @@ if room_clicked:
         
         st.table(display_df)
     else:
-        st.info(f"🔓授業は登録されていないので空き教室です！")
+        st.info("🔓授業は登録されていないので空き教室です！")
