@@ -26,7 +26,7 @@ components.iframe(
 # Google Calendar OAuth
 CLIENT_SECRETS_FILE = "/mount/src/group3_center5/Group3_Center5/pages/credentials.json"
 TOKEN_FILE = "token.pkl"
-SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
+SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 # 🔄 Detect local or deployed environment and set redirect_uri accordingly
 IS_LOCAL = os.environ.get("STREAMLIT_SERVER_PORT") == "8501"
