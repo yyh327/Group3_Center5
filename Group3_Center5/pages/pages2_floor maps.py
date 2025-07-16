@@ -84,12 +84,12 @@ if room_clicked:
         # 表示用データ作成
         if selected_period is None:
             # すべての時限を表示 → 時限列あり
-            display_df = filtered[["Room", "Class name", "Teacher", "Period"]].copy()
-            display_df.columns = ["教室", "授業名", "担当教員", "時限"]
+            display_df = filtered[["Period", "Class name", "Teacher"]].copy()
+            display_df.columns = [ "時限", "授業名", "担当教員"]
         else:
             # 指定時限のみ → 時限列は表示しない
-            display_df = filtered[["Room", "Class name", "Teacher"]].copy()
-            display_df.columns = ["教室", "授業名", "担当教員"]
+            display_df = filtered[[ "Class name", "Teacher"]].copy()
+            display_df.columns = ["授業名", "担当教員"]
 
         display_df = display_df.sort_values("時限") if "時限" in display_df.columns else display_df
 
