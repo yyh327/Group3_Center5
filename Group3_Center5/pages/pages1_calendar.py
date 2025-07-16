@@ -18,8 +18,9 @@ st.markdown("""
     Note: This calendar is for checking availability only — reservations cannot be made here.
 """)
 
+# Static public calendar view
 components.iframe(
-    "https://calendar.google.com/calendar/embed?src=ab02e25d2cbd99a78961c80f7fc34fc403f6372650bab1fcce7861e73704d2ea%40group.calendar.google.com&ctz=America%2FNew_York",
+    "https://calendar.google.com/calendar/embed?src=ab02e25d2cbd99a78961c80f7fc34fc403f6372650bab1fcce7861e73704d2ea%40group.calendar.google.com&ctz=America/New_York",
     width=1200, height=800, scrolling=True
 )
 
@@ -30,11 +31,7 @@ SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 # Detect local or deployed environment and set redirect_uri accordingly
 IS_LOCAL = os.environ.get("STREAMLIT_SERVER_PORT") == "8501"
-
-if IS_LOCAL:
-    REDIRECT_URI = "http://localhost:8501/"
-else:
-    REDIRECT_URI = "https://group3center5-gnpekcrtfkawfet2ewfsi8.streamlit.app/pages1_calendar"
+REDIRECT_URI = "http://localhost:8501/" if IS_LOCAL else "https://group3center5-gnpekcrtfkawfet2ewfsi8.streamlit.app/pages1_calendar"
 
 def save_token(creds):
     with open(TOKEN_FILE, 'wb') as token:
@@ -54,7 +51,7 @@ def get_calendar_service():
     )
     auth_url, _ = flow.authorization_url(prompt='consent')
 
-    query_params = st.experimental_get_query_params()
+    query_params = st.query_params()
     code = query_params.get("code", [None])[0]
 
     if not creds or not creds.valid:
@@ -82,61 +79,71 @@ if st.button("Logout"):
         os.remove(TOKEN_FILE)
     st.experimental_rerun()
 
+# If authenticated
 if service:
-    st.success("Access granted to your Google Calendar!")
+    st.success("✅ Access granted to your Google Calendar!")
 
-    # Date selector
-    selected_date = st.date_input("Select a date to view events", datetime.date.today())
-
+    selected_date = st.date_input("📅 Select a date to view events", datetime.date.today())
     start_of_day = datetime.datetime.combine(selected_date, datetime.time.min).isoformat() + 'Z'
     end_of_day = datetime.datetime.combine(selected_date, datetime.time.max).isoformat() + 'Z'
 
-    # Try fetching user's calendars with error handling
+    # Load calendars
     try:
         calendars = service.calendarList().list().execute().get('items', [])
     except Exception as e:
-        st.error("❌ Failed to load calendar list. Here’s the error:")
+        st.error("❌ Failed to load calendar list:")
         st.exception(e)
         st.stop()
 
     col1, col2 = st.columns(2)
 
+    # Show calendar names
     with col1:
-        st.subheader("Your Calendars")
+        st.subheader("📘 Your Calendars")
         for cal in calendars:
             st.write(cal['summary'])
 
+    # Show events from all calendars
     with col2:
-        st.subheader(f"Events on {selected_date.strftime('%Y-%m-%d')}")
-        events_result = service.events().list(
-            calendarId='primary',
-            timeMin=start_of_day,
-            timeMax=end_of_day,
-            singleEvents=True,
-            orderBy='startTime'
-        ).execute()
-        events = events_result.get('items', [])
-        if not events:
-            st.info("No events on this day.")
-        else:
-            for event in events:
-                start = event['start'].get('dateTime', event['start'].get('date'))
-                end = event['end'].get('dateTime', event['end'].get('date'))
-                st.write(f"**{event['summary']}**")
-                st.write(f"Start: {start}")
-                st.write(f"End: {end}")
-                st.markdown("---")
+        st.subheader(f"📆 Events on {selected_date.strftime('%Y-%m-%d')}")
+        for cal in calendars:
+            st.markdown(f"**📍 {cal['summary']}**")
+            try:
+                events_result = service.events().list(
+                    calendarId=cal['id'],
+                    timeMin=start_of_day,
+                    timeMax=end_of_day,
+                    singleEvents=True,
+                    orderBy='startTime'
+                ).execute()
+                events = events_result.get('items', [])
+            except Exception as e:
+                st.warning(f"Could not fetch events for {cal['summary']}.")
+                st.exception(e)
+                continue
 
-    # Embed personal Google Calendar iframe below the events list
-    if calendars:
-        user_cal_id = calendars[0]['id']  # Or you could let users pick from the list
+            if not events:
+                st.info("No events in this calendar.")
+            else:
+                for event in events:
+                    start = event['start'].get('dateTime', event['start'].get('date'))
+                    end = event['end'].get('dateTime', event['end'].get('date'))
+                    title = event.get('summary', 'No title')
+                    st.write(f"**{title}**")
+                    st.write(f"🕒 Start: {start}")
+                    st.write(f"🕓 End: {end}")
+                    st.markdown("---")
 
-        embed_url = (
-            "https://calendar.google.com/calendar/embed?"
-            f"src={user_cal_id}&"
-            "mode=week&showTitle=0&showPrint=0&showCalendars=0&showTz=0&"
-            "ctz=America/New_York"
-        )
+    # Dropdown to select calendar to embed
+    st.markdown("### 🔗 Embed One of Your Calendars")
+    calendar_names = {cal['summary']: cal['id'] for cal in calendars}
+    selected_cal_name = st.selectbox("Choose calendar to embed:", list(calendar_names.keys()))
+    user_cal_id = calendar_names[selected_cal_name]
 
-        st.markdown("### Your Personal Google Calendar")
-        components.iframe(embed_url, width=900, height=700)
+    embed_url = (
+        "https://calendar.google.com/calendar/embed?"
+        f"src={user_cal_id}&"
+        "mode=week&showTitle=0&showPrint=0&showCalendars=0&showTz=0&"
+        "ctz=America/New_York"
+    )
+    components.iframe(embed_url, width=900, height=700)
