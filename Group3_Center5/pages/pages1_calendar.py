@@ -22,7 +22,7 @@ components.iframe(
 )
 
 # Google Calendar OAuth
-CLIENT_SECRETS_FILE = "credentials.json"
+CLIENT_SECRETS_FILE = "/mount/src/group3_center5/Group3_Center5/pages/credentials.json"
 TOKEN_FILE = "token.pkl"
 SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
 
