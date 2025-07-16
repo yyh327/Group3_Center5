@@ -10,7 +10,8 @@ df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", enco
 st.title("センター5号館 教室検索")
 
 # --- 画面を左右に分割 ---
-left_col, right_col = st.columns([1, 1.2])  # 左:選択, 右:画像
+spacer_col, left_col, right_col = st.columns([0.1, 0.6, 0.3])
+
 
 with left_col:
     # --- 1. 階数選択 ---
@@ -49,7 +50,7 @@ with left_col:
 with right_col:
     # --- 地図画像の表示（向き補正あり） ---
     image = ImageOps.exif_transpose(Image.open(image_path))
-    st.image(image, caption=f"センター5号館 {selected_floor}", width=300)
+    st.image(image, caption=f"センター5号館 {selected_floor}", width=500)
 
 # --- 5. 授業表示（画面下に全体表示） ---
 if room_clicked:
