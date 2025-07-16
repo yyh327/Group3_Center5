@@ -2,12 +2,12 @@ import streamlit as st
 import pandas as pd
 from PIL import Image, ImageOps
 
-st.set_page_config(page_title="センター5号館 教室検索", layout="wide")
+st.set_page_config(page_title="センター5号館 空き教室検索", layout="wide")
 
 # CSV読み込み
 df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", encoding="shift_jis")
 
-st.title("センター5号館 教室検索")
+st.title("センター5号館 空き教室検索")
 
 # --- 画面を左右に分割 ---
 left_col, right_col = st.columns([ 0.6, 0.3])
@@ -63,6 +63,7 @@ if room_clicked:
         display_df = filtered[["Room", "Class name", "Teacher", "Period"]].copy()
         display_df.columns = ["教室", "授業名", "担当教員", "時限"]
         display_df = display_df.sort_values("時限")
+        st.info("この教室は授業で使用中です")
         st.table(display_df)
     else:
-        st.info(f"ℹ️{selected_day_jp}曜日の {room_clicked} の授業は登録されていません。")
+        st.info(f"ℹ️{selected_day_jp}曜日の {room_clicked} の授業は登録されていないので空き教室です！")
