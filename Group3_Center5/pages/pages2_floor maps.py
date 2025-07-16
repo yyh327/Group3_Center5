@@ -20,7 +20,7 @@ with left_col:
     selected_floor = st.radio("", floor_options, horizontal=True)
 
     # --- 2. 教室リストと画像パス切り替え ---
-    if selected_floor == "3F":
+    if selected_floor == "3階":
         image_path = "/mount/src/group3_center5/Group3_Center5/pages/5goukan3F.png"
         room_list = ['5301', '5302', '5303', '5304', '5305', '5306', '5307', '5308',
                      '5309', '5310', '5311', '5312', '5313']
