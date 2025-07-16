@@ -28,6 +28,13 @@ CLIENT_SECRETS_FILE = "/mount/src/group3_center5/Group3_Center5/pages/credential
 TOKEN_FILE = "token.pkl"
 SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
 
+# 🔄 Detect local or deployed environment and set redirect_uri accordingly
+app_url = st.experimental_get_url()
+if "localhost" in app_url.lower():
+    REDIRECT_URI = "http://localhost:8501/"
+else:
+    REDIRECT_URI = "https://group3center5-gnpekcrtfkawfet2ewfsi8.streamlit.app/pages1_calendar"
+
 def save_token(creds):
     with open(TOKEN_FILE, 'wb') as token:
         pickle.dump(creds, token)
@@ -42,7 +49,7 @@ def get_calendar_service():
     creds = load_token()
     flow = Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, SCOPES,
-        redirect_uri="https://group3center5-gnpekcrtfkawfet2ewfsi8.streamlit.app/pages1_calendar"
+        redirect_uri=REDIRECT_URI
     )
     auth_url, _ = flow.authorization_url(prompt='consent')
 
@@ -58,23 +65,27 @@ def get_calendar_service():
             save_token(creds)
             st.experimental_rerun()
         else:
-            st.markdown(f"Please [authorize here]({auth_url})")
+            st.markdown(f"👉 Please [authorize here]({auth_url}) to access your Google Calendar.")
             st.stop()
+
     if creds:
         return build('calendar', 'v3', credentials=creds)
     return None
 
+# Main logic
 service = get_calendar_service()
 
+# 🔐 Logout button
 if st.button("Logout"):
     if os.path.exists(TOKEN_FILE):
         os.remove(TOKEN_FILE)
     st.experimental_rerun()
 
+# ✅ If authenticated
 if service:
     st.success("Access granted to your Google Calendar!")
 
-    # Date selector
+    # 📅 Date selector
     selected_date = st.date_input("Select a date to view events", datetime.date.today())
 
     start_of_day = datetime.datetime.combine(selected_date, datetime.time.min).isoformat() + 'Z'
@@ -82,7 +93,6 @@ if service:
 
     # UI columns
     calendars = service.calendarList().list().execute().get('items', [])
-
     col1, col2 = st.columns(2)
 
     with col1:
