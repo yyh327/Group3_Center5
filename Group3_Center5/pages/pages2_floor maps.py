@@ -50,7 +50,7 @@ with left_col:
 with right_col:
     # --- 地図画像の表示（向き補正あり） ---
     image = ImageOps.exif_transpose(Image.open(image_path))
-    st.image(image, caption=f"センター5号館 {selected_floor}", width=500)
+    st.image(image, caption=f"センター5号館 {selected_floor}", width=300)
 
 # --- 5. 授業表示（画面下に全体表示） ---
 if room_clicked:
