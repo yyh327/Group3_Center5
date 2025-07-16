@@ -51,7 +51,7 @@ def get_calendar_service():
     )
     auth_url, _ = flow.authorization_url(prompt='consent')
 
-    query_params = st.query_params()
+   query_params = st.experimental_get_query_params()
     code = query_params.get("code", [None])[0]
 
     if not creds or not creds.valid:
