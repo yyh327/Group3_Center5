@@ -76,16 +76,27 @@ if room_clicked:
         (df["Room"].astype(str) == room_clicked)
     ]
 
-    # 追加：時限選択によるフィルター
+    # 時限フィルター
     if selected_period is not None:
         filtered = filtered[filtered["Period"] == selected_period]
 
     if not filtered.empty:
-        display_df = filtered[["Room", "Class name", "Teacher", "Period"]].copy()
-        display_df.columns = ["教室", "授業名", "担当教員", "時限"]
-        display_df = display_df.sort_values("時限")
-        st.info("この教室は授業で使用中です")
+        # 表示用データ作成
+        if selected_period is None:
+            # すべての時限を表示 → 時限列あり
+            display_df = filtered[["Room", "Class name", "Teacher", "Period"]].copy()
+            display_df.columns = ["教室", "授業名", "担当教員", "時限"]
+        else:
+            # 指定時限のみ → 時限列は表示しない
+            display_df = filtered[["Room", "Class name", "Teacher"]].copy()
+            display_df.columns = ["教室", "授業名", "担当教員"]
+
+        display_df = display_df.sort_values("時限") if "時限" in display_df.columns else display_df
+
+        # 「この教室は授業で使用中です」の表示は時限指定ありのみ
+        if selected_period is not None:
+            st.info("この教室は授業で使用中です")
+        
         st.table(display_df)
     else:
         st.info(f"ℹ️{selected_day_jp}曜日の {room_clicked} の授業は登録されていないので空き教室です！")
-
