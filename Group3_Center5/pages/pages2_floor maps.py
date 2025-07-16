@@ -38,6 +38,21 @@ with left_col:
     selected_day_jp = st.radio("", days_jp, horizontal=True)
     selected_day_en = [k for k, v in day_mapping.items() if v == selected_day_jp][0]
 
+    # --- 追加：時限選択 ---
+    st.markdown("### ⏰ 時限を選んでください")
+
+    # data.csvのPeriod列からユニークな時限を取得（数値のまま）
+    periods = sorted(df["Period"].dropna().unique())
+    period_options = ["すべて"] + [f"{int(p)}限" for p in periods]
+
+    # 表示用の文字列 → 数値マップ
+    period_map = {f"{int(p)}限": int(p) for p in periods}
+
+    # ラジオボタン
+    selected_period_label = st.radio("表示する時限を選んでください", period_options, horizontal=True)
+    selected_period = None if selected_period_label == "すべて" else period_map[selected_period_label]
+
+
     # --- 4. 教室ボタン ---
     st.markdown("### 🏫教室をクリックしてください")
     room_clicked = None
@@ -55,9 +70,14 @@ with right_col:
 # --- 5. 授業表示（画面下に全体表示） ---
 if room_clicked:
     st.success(f"✅{selected_floor} {room_clicked} を選択しました（{selected_day_jp}曜日）")
+    
     filtered = df[
-        (df["Day"] == selected_day_en) &
-        (df["Room"].astype(str) == room_clicked)
+    (df["Day"] == selected_day_en) &
+    (df["Room"].astype(str) == room_clicked)
+
+if selected_period is not None:
+    filtered = filtered[filtered["Period"] == selected_period]
+
     ]
     if not filtered.empty:
         display_df = filtered[["Room", "Class name", "Teacher", "Period"]].copy()
@@ -67,3 +87,6 @@ if room_clicked:
         st.table(display_df)
     else:
         st.info(f"ℹ️{selected_day_jp}曜日の {room_clicked} の授業は登録されていないので空き教室です！")
+
+
+
