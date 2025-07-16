@@ -17,7 +17,8 @@ st.title("センター5号館 曜日別・教室別時間割")
 # 地図画像表示
 image = Image.open("/mount/src/group3_center5/Group3_Center5/pages/5goukan3F.jpg")
 image = ImageOps.exif_transpose(image) 
-st.image(image, caption="センター5号館 3F 教室案内", use_column_width=True)
+st.image(image, caption="センター5号館 3F 教室案内", width=400)
+
 
 # 曜日選択
 day_mapping = {
