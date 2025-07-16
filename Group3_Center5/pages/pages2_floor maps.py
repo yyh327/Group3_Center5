@@ -11,7 +11,8 @@ st.title("センター5号館 フロアマップ ＋ 授業時間割")
 
 # --- 1. 階数選択（ここが最初のステップ）---
 floor_options = ["3F", "4F"]
-selected_floor = st.radio("まず階数を選んでください", floor_options, horizontal=True)
+st.markdown("### 階数を選んでください")
+selected_floor = st.radio("", floor_options, horizontal=True)
 
 # --- 2. フロアごとの処理 ---
 # 階によって使う画像・教室リストを切り替える
@@ -26,7 +27,7 @@ else:  # "4F"
 
 # 地図画像表示（向き補正あり）
 image = ImageOps.exif_transpose(Image.open(image_path))
-st.image(image, caption=f"センター5号館 {selected_floor}", width=500)
+st.image(image, caption=f"センター5号館 {selected_floor}", width=300)
 
 # --- 3. 曜日選択 ---
 st.markdown("### 曜日を選んでください")
