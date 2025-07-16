@@ -72,13 +72,14 @@ if room_clicked:
     st.success(f"✅{selected_floor} {room_clicked} を選択しました（{selected_day_jp}曜日）")
     
     filtered = df[
-    (df["Day"] == selected_day_en) &
-    (df["Room"].astype(str) == room_clicked)
-
-if selected_period is not None:
-    filtered = filtered[filtered["Period"] == selected_period]
-
+        (df["Day"] == selected_day_en) &
+        (df["Room"].astype(str) == room_clicked)
     ]
+
+    # 追加：時限選択によるフィルター
+    if selected_period is not None:
+        filtered = filtered[filtered["Period"] == selected_period]
+
     if not filtered.empty:
         display_df = filtered[["Room", "Class name", "Teacher", "Period"]].copy()
         display_df.columns = ["教室", "授業名", "担当教員", "時限"]
@@ -87,6 +88,4 @@ if selected_period is not None:
         st.table(display_df)
     else:
         st.info(f"ℹ️{selected_day_jp}曜日の {room_clicked} の授業は登録されていないので空き教室です！")
-
-
 
