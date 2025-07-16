@@ -25,11 +25,12 @@ day_mapping = {
     "Monday": "月", "Tuesday": "火", "Wednesday": "水", "Thursday": "木", "Friday": "金"
 }
 days_jp = ["月", "火", "水", "木", "金"]
-selected_day_jp = st.radio("曜日を選んでください", days_jp, horizontal=True)
+st.subheader("曜日を選んでください")
+selected_day_jp = st.radio("", days_jp, horizontal=True)
 selected_day_en = [k for k, v in day_mapping.items() if v == selected_day_jp][0]
 
-# 教室ボタン（画像下に横並びで配置）
-st.subheader("教室をクリックしてください（画像と対応）")
+# 教室ボタン
+st.subheader("教室をクリックしてください")
 room_list = ['5301', '5302', '5303', '5304', '5305', '5306', '5307', '5308', '5309', '5310', '5311', '5312', '5313']
 room_clicked = None
 cols = st.columns(5)
