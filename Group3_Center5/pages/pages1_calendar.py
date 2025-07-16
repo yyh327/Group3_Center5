@@ -18,12 +18,6 @@ st.markdown("""
     Note: This calendar is for checking availability only — reservations cannot be made here.
 """)
 
-# Static public calendar view
-components.iframe(
-    "https://calendar.google.com/calendar/embed?src=ab02e25d2cbd99a78961c80f7fc34fc403f6372650bab1fcce7861e73704d2ea%40group.calendar.google.com&ctz=America/New_York",
-    width=1200, height=800, scrolling=True
-)
-
 # Google Calendar OAuth
 CLIENT_SECRETS_FILE = "/mount/src/group3_center5/Group3_Center5/pages/credentials.json"
 TOKEN_FILE = "token.pkl"
