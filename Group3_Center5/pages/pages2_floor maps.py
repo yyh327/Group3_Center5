@@ -49,7 +49,7 @@ with left_col:
     period_map = {f"{int(p)}限": int(p) for p in periods}
 
     # ラジオボタン
-    selected_period_label = st.radio("表示する時限を選んでください", period_options, horizontal=True)
+    selected_period_label = st.radio("", period_options, horizontal=True)
     selected_period = None if selected_period_label == "すべて" else period_map[selected_period_label]
 
 
@@ -95,8 +95,8 @@ if room_clicked:
 
         # 「この教室は授業で使用中です」の表示は時限指定ありのみ
         if selected_period is not None:
-            st.info("この教室は授業で使用中です")
+            st.info("🔴この教室は授業で使用中です")
         
         st.table(display_df)
     else:
-        st.info(f"ℹ️{selected_day_jp}曜日の {room_clicked} の授業は登録されていないので空き教室です！")
+        st.info(f"🟢{selected_day_jp}曜日の {room_clicked} の授業は登録されていないので空き教室です！")
