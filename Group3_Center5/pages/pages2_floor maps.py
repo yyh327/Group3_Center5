@@ -15,12 +15,12 @@ left_col, right_col = st.columns([ 0.6, 0.3])
 
 with left_col:
     # --- 1. 階数選択 ---
-    floor_options = ["3F", "4F"]
-    st.markdown("### 🏢階数を選んでください")
+    floor_options = ["3階", "4階"]
+    st.markdown("### 🏢 階数を選んでください")
     selected_floor = st.radio("", floor_options, horizontal=True)
 
     # --- 2. 教室リストと画像パス切り替え ---
-    if selected_floor == "3F":
+    if selected_floor == "3階":
         image_path = "/mount/src/group3_center5/Group3_Center5/pages/5goukan3F.png"
         room_list = ['5301', '5302', '5303', '5304', '5305', '5306', '5307', '5308',
                      '5309', '5310', '5311', '5312', '5313']
@@ -30,7 +30,7 @@ with left_col:
                      '5409', '5410', '5411', '5412', '5413', '5414', '5415', '5416', '5417']
 
     # --- 3. 曜日選択 ---
-    st.markdown("### 📅曜日を選んでください")
+    st.markdown("### 📅 曜日を選んでください")
     days_jp = ["月", "火", "水", "木", "金"]
     day_mapping = {
         "Monday": "月", "Tuesday": "火", "Wednesday": "水", "Thursday": "木", "Friday": "金"
@@ -49,12 +49,12 @@ with left_col:
     period_map = {f"{int(p)}限": int(p) for p in periods}
 
     # ラジオボタン
-    selected_period_label = st.radio("表示する時限を選んでください", period_options, horizontal=True)
+    selected_period_label = st.radio("", period_options, horizontal=True)
     selected_period = None if selected_period_label == "すべて" else period_map[selected_period_label]
 
 
     # --- 4. 教室ボタン ---
-    st.markdown("### 🏫教室をクリックしてください")
+    st.markdown("### 🏫 教室をクリックしてください")
     room_clicked = None
     cols = st.columns(3)
 
@@ -69,7 +69,7 @@ with right_col:
 
 # --- 5. 授業表示（画面下に全体表示） ---
 if room_clicked:
-    st.success(f"✅{selected_floor} {room_clicked} を選択しました（{selected_day_jp}曜日）")
+    st.success(f"✅ {selected_day_jp}曜日 {selected_floor} {room_clicked} を選択しました")
     
     filtered = df[
         (df["Day"] == selected_day_en) &
@@ -95,8 +95,8 @@ if room_clicked:
 
         # 「この教室は授業で使用中です」の表示は時限指定ありのみ
         if selected_period is not None:
-            st.info("この教室は授業で使用中です")
+            st.info("🔒 この教室は授業で使用中です")
         
         st.table(display_df)
     else:
-        st.info(f"ℹ️{selected_day_jp}曜日の {room_clicked} の授業は登録されていないので空き教室です！")
+        st.info("🔓 授業は登録されていないので空き教室です！")
