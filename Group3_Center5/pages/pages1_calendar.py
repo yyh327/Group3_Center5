@@ -29,8 +29,9 @@ TOKEN_FILE = "token.pkl"
 SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
 
 # 🔄 Detect local or deployed environment and set redirect_uri accordingly
-app_url = st.experimental_get_url()
-if "localhost" in app_url.lower():
+IS_LOCAL = os.environ.get("STREAMLIT_SERVER_PORT") == "8501"
+
+if IS_LOCAL:
     REDIRECT_URI = "http://localhost:8501/"
 else:
     REDIRECT_URI = "https://group3center5-gnpekcrtfkawfet2ewfsi8.streamlit.app/pages1_calendar"
