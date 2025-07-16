@@ -15,7 +15,7 @@ left_col, right_col = st.columns([ 0.6, 0.3])
 
 with left_col:
     # --- 1. 階数選択 ---
-    floor_options = ["3F", "4F"]
+    floor_options = ["3階", "4階"]
     st.markdown("### 🏢階数を選んでください")
     selected_floor = st.radio("", floor_options, horizontal=True)
 
@@ -69,7 +69,7 @@ with right_col:
 
 # --- 5. 授業表示（画面下に全体表示） ---
 if room_clicked:
-    st.success(f"✅{selected_day_jp}曜日の {selected_floor} {room_clicked} を選択しました")
+    st.success(f"✅{selected_day_jp}曜日 {selected_floor} {room_clicked} を選択しました")
     
     filtered = df[
         (df["Day"] == selected_day_en) &
