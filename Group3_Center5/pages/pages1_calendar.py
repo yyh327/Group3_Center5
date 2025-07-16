@@ -93,7 +93,13 @@ if service:
     end_of_day = datetime.datetime.combine(selected_date, datetime.time.max).isoformat() + 'Z'
 
     # UI columns
-    calendars = service.calendarList().list().execute().get('items', [])
+    try:
+        calendars = service.calendarList().list().execute().get('items', [])
+    except Exception as e:
+        st.error("❌ Failed to load calendar list. Here’s the error:")
+        st.exception(e)
+        st.stop()
+
     col1, col2 = st.columns(2)
 
     with col1:
