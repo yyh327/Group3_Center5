@@ -28,7 +28,7 @@ CLIENT_SECRETS_FILE = "/mount/src/group3_center5/Group3_Center5/pages/credential
 TOKEN_FILE = "token.pkl"
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
-# 🔄 Detect local or deployed environment and set redirect_uri accordingly
+# Detect local or deployed environment and set redirect_uri accordingly
 IS_LOCAL = os.environ.get("STREAMLIT_SERVER_PORT") == "8501"
 
 if IS_LOCAL:
@@ -76,23 +76,22 @@ def get_calendar_service():
 # Main logic
 service = get_calendar_service()
 
-# 🔐 Logout button
+# Logout button
 if st.button("Logout"):
     if os.path.exists(TOKEN_FILE):
         os.remove(TOKEN_FILE)
     st.experimental_rerun()
 
-# ✅ If authenticated
 if service:
     st.success("Access granted to your Google Calendar!")
 
-    # 📅 Date selector
+    # Date selector
     selected_date = st.date_input("Select a date to view events", datetime.date.today())
 
     start_of_day = datetime.datetime.combine(selected_date, datetime.time.min).isoformat() + 'Z'
     end_of_day = datetime.datetime.combine(selected_date, datetime.time.max).isoformat() + 'Z'
 
-    # UI columns
+    # Try fetching user's calendars with error handling
     try:
         calendars = service.calendarList().list().execute().get('items', [])
     except Exception as e:
@@ -127,3 +126,17 @@ if service:
                 st.write(f"Start: {start}")
                 st.write(f"End: {end}")
                 st.markdown("---")
+
+    # Embed personal Google Calendar iframe below the events list
+    if calendars:
+        user_cal_id = calendars[0]['id']  # Or you could let users pick from the list
+
+        embed_url = (
+            "https://calendar.google.com/calendar/embed?"
+            f"src={user_cal_id}&"
+            "mode=week&showTitle=0&showPrint=0&showCalendars=0&showTz=0&"
+            "ctz=America/New_York"
+        )
+
+        st.markdown("### Your Personal Google Calendar")
+        components.iframe(embed_url, width=900, height=700)
