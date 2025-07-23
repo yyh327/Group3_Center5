@@ -4,13 +4,13 @@ from PIL import Image, ImageOps
 
 st.set_page_config(page_title="センター5号館 空き教室検索", layout="wide")
 
-st.markdown("""<span style='font-size: 0.8em; color: gray;'>Center Building 5 – Available Classroom Finder</span>
-""", unsafe_allow_html=True)
-
 # CSV読み込み
 df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", encoding="shift_jis")
 
 st.title("センター5号館 空き教室検索")
+
+st.markdown("""<span style='font-size: 1em; color: gray;'>Center Building 5 – Available Classroom Finder</span>
+""", unsafe_allow_html=True)
 
 # --- 画面を左右に分割 ---
 left_col, right_col = st.columns([ 0.6, 0.3])
@@ -19,7 +19,10 @@ left_col, right_col = st.columns([ 0.6, 0.3])
 with left_col:
     # --- 1. 階数選択 ---
     floor_options = ["3階", "4階"]
-    st.markdown("### 🏢 階数を選んでください")
+    st.markdown("""
+### 🏢 階数を選んでください
+<span style='font-size: 0.7em; color: gray;'>(Please select a floor)</span></h3>
+""", unsafe_allow_html=True)
     selected_floor = st.radio("", floor_options, horizontal=True)
 
     # --- 2. 教室リストと画像パス切り替え ---
