@@ -8,7 +8,6 @@ st.set_page_config(page_title="センター5号館 空き教室検索", layout="
 df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", encoding="shift_jis")
 
 st.title("センター5号館 空き教室検索")
-
 st.markdown("""<span style='font-size: 1em; color: gray;'>Center Building 5 – Available Classroom Finder</span>
 """, unsafe_allow_html=True)
 
@@ -26,7 +25,7 @@ with left_col:
     selected_floor = st.radio("", floor_options, horizontal=True)
 
     # --- 2. 教室リストと画像パス切り替え ---
-    if selected_floor == "3階":
+    if selected_floor == "3階/3F":
         image_path = "/mount/src/group3_center5/Group3_Center5/pages/5goukan3F.png"
         room_list = ['5301', '5302', '5303', '5304', '5305', '5306', '5307', '5308',
                      '5309', '5310', '5311', '5312', '5313']
@@ -55,14 +54,14 @@ with left_col:
 
     # data.csvのPeriod列からユニークな時限を取得（数値のまま）
     periods = sorted(df["Period"].dropna().unique())
-    period_options = ["すべて"] + [f"{int(p)}限" for p in periods]
+    period_options = ["すべて/All"] + [f"{int(p)}限/Period" for p in periods]
 
     # 表示用の文字列 → 数値マップ
-    period_map = {f"{int(p)}限": int(p) for p in periods}
+    period_map = {f"{int(p)}限/Period": int(p) for p in periods}
 
     # ラジオボタン
     selected_period_label = st.radio("", period_options, horizontal=True)
-    selected_period = None if selected_period_label == "すべて" else period_map[selected_period_label]
+    selected_period = None if selected_period_label == "すべて/All" else period_map[selected_period_label]
 
 
     # --- 4. 教室ボタン ---
@@ -85,7 +84,7 @@ with right_col:
 
 # --- 5. 授業表示（画面下に全体表示） ---
 if room_clicked:
-    st.success(f"✅ {selected_day_jp}曜日 {selected_floor} {room_clicked} を選択しました")
+    st.success(f"✅ {selected_day_jp}曜日 {selected_floor} {room_clicked} を選択しました/{selected_day_jp}, {selected_floor} {room_clicked} is selected")
     
     filtered = df[
         (df["Day"] == selected_day_en) &
