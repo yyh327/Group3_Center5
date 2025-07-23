@@ -51,7 +51,7 @@ styled_pivot = styled_pivot.replace("", "🟩 空き")
 
 # --- スタイル適用 ---
 def style_table(val):
-    if "🟩" in val:
+    if isinstance(val, str) and "🟩" in val:
         return "background-color: #d4f4dd; text-align: center;"
     else:
         return "background-color: #f0f0f0; text-align: left;"
