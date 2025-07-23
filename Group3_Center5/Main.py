@@ -1,9 +1,9 @@
 import streamlit as st
 
-st.title("Hello Fellow Students 👋")
+st.title("Hello ISI Students 👋")
 st.markdown(
     """ 
-    This is the intro page to our website for Center 5 Ito Campus for students to check the availability of each classrooms.
+    This is the intro page to our website for Center 5 Ito Campus for ISI students to check the availability of classrooms or class information!
 
     **👈 Select a tab from the dropdown on the left** to start exploring Center 5.
 
