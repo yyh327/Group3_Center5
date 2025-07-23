@@ -6,10 +6,15 @@ st.set_page_config(page_title="時間割", layout="wide")
 # CSV読み込み
 df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", encoding="shift_jis")
 
-st.title("🗓️ 教室別 時間割")
+st.title("🗓️ 教室別 時間割
+<span style='font-size: 1em; color: gray;'>(Classroom Timetable)</span></h3>
+""", unsafe_allow_html=True)")
+
 
 # --- 教室リスト選択 ---
-st.markdown("### 🏫 教室を選んでください")
+st.markdown("### 🏫 教室を選んでください
+<span style='font-size: 1em; color: gray;'>(Please select a classroom)</span></h3>
+", unsafe_allow_html=True)")
 
 
 # 教室選択
@@ -19,7 +24,7 @@ floor_4_rooms = ['5401', '5402', '5403', '5404', '5405', '5406', '5407', '5408',
                  '5409', '5410', '5411', '5412', '5413', '5414', '5415', '5416', '5417']
 all_rooms = sorted(floor_3_rooms + floor_4_rooms)
 
-selected_room = st.selectbox("教室を選択", all_rooms)
+selected_room = st.selectbox("教室を選択/Select clasroom", all_rooms)
 
 # 前処理
 df["Day"] = df["Day"].fillna("")
@@ -59,7 +64,7 @@ pivot = pivot.reindex(columns=day_order).rename(columns=day_labels)
 pivot.index.name = "時限"
 
 
-st.markdown(f"### 📋 {selected_room} の時間割")
+st.markdown(f"### 📋 {selected_room} の時間割/{selected_room} timetable")
 
 st.dataframe(
     styled_pivot.style.applymap(style_table),
