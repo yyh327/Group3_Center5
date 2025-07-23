@@ -39,7 +39,7 @@ room_df["Display"] = room_df["Class name"].fillna("") + "（" + room_df["Teacher
 # ピボットテーブル：時限×曜日
 pivot = room_df.pivot_table(
     index="Period", columns="Day", values="Display", aggfunc=lambda x: " / ".join(x)
-).fillna("")
+).fillna("🟩 空き")  # ←ここで空欄を空きに変換
 
 # 表の行・列ラベル整理
 pivot = pivot.reindex(columns=day_order).rename(columns=day_labels)
