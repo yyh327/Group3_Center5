@@ -10,7 +10,9 @@ df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", enco
 st.title("🔍 授業名・担当教員で検索")
 
 # 検索窓
-query = st.text_input("授業名または担当教員名を入力してください（例：鬼丸、課題研究）")
+query = st.text_input("授業名または担当教員名を入力してください（例：鬼丸、課題研究）
+<span style='font-size: 1em; color: gray;'>(Please enter the class name or teacher name (e.g. Onimaru, Project Research)
+)</span></h3>", unsafe_allow_html=True)
 
 if query:
     # ひらがな→カタカナに変換（あいまい検索対策）
@@ -43,12 +45,13 @@ if query:
         detail_df.columns = ["授業名", "担当教員", "教室", "曜日", "時限"]
         detail_df = detail_df.sort_values(["曜日", "時限"])
 
-        st.write("### 📋 授業の詳細")
+        st.write("### 📋 授業の詳細
+        <span style='font-size: 1em; color: gray;'>(Class details)</span></h3>", unsafe_allow_html=True)
         st.table(detail_df)
 
     else:
-        st.warning("該当する授業が見つかりませんでした")
+        st.warning("該当する授業が見つかりませんでした/Unable to find a matching course")
 
 else:
-    st.info("🔎 上の検索窓にキーワードを入力してください")
+    st.info("🔎 上の検索窓にキーワードを入力してください/Please input keyword above")
 
