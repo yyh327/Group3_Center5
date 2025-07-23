@@ -37,6 +37,16 @@ def load_token():
             return pickle.load(token)
     return None
 
+def remove_query_params():
+    # This JavaScript snippet removes the query parameters from the URL without reloading the page
+    st.markdown("""
+        <script>
+        if (window.location.search.length > 0) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        </script>
+    """, unsafe_allow_html=True)
+
 def get_calendar_service():
     creds = load_token()
     flow = Flow.from_client_secrets_file(
@@ -52,10 +62,16 @@ def get_calendar_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         elif code:
-            flow.fetch_token(code=code)
-            creds = flow.credentials
-            save_token(creds)
-            st.experimental_rerun()
+            try:
+                flow.fetch_token(code=code)
+                creds = flow.credentials
+                save_token(creds)
+                remove_query_params()  # Clear code from URL
+                st.experimental_rerun()
+            except Exception as e:
+                st.error("❌ Failed to fetch token")
+                st.exception(e)
+                st.stop()
         else:
             st.markdown(f"👉 Please [authorize here]({auth_url}) to access your Google Calendar.")
             st.stop()
