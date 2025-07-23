@@ -21,7 +21,7 @@ with left_col:
     floor_options = ["3階", "4階"]
     st.markdown("""
 ### 🏢 階数を選んでください
-<span style='font-size: 0.7em; color: gray;'>(Please select a floor)</span></h3>
+<span style='font-size: 1em; color: gray;'>(Please select a floor)</span></h3>
 """, unsafe_allow_html=True)
     selected_floor = st.radio("", floor_options, horizontal=True)
 
@@ -36,7 +36,10 @@ with left_col:
                      '5409', '5410', '5411', '5412', '5413', '5414', '5415', '5416', '5417']
 
     # --- 3. 曜日選択 ---
-    st.markdown("### 📅 曜日を選んでください")
+        st.markdown("""
+### 📅 曜日を選んでください
+<span style='font-size: 1em; color: gray;'>(Please select a date)</span></h3>
+""", unsafe_allow_html=True)
     days_jp = ["月", "火", "水", "木", "金"]
     day_mapping = {
         "Monday": "月", "Tuesday": "火", "Wednesday": "水", "Thursday": "木", "Friday": "金"
@@ -45,7 +48,10 @@ with left_col:
     selected_day_en = [k for k, v in day_mapping.items() if v == selected_day_jp][0]
 
     # --- 追加：時限選択 ---
-    st.markdown("### ⏰ 時限を選んでください")
+    st.markdown("""
+### ⏰ 時限を選んでください
+<span style='font-size: 1em; color: gray;'>(Please select a time)</span></h3>
+""", unsafe_allow_html=True)
 
     # data.csvのPeriod列からユニークな時限を取得（数値のまま）
     periods = sorted(df["Period"].dropna().unique())
@@ -60,7 +66,11 @@ with left_col:
 
 
     # --- 4. 教室ボタン ---
-    st.markdown("### 🏫 教室をクリックしてください")
+    st.markdown("""
+### 🏫 教室をクリックしてください
+<span style='font-size: 1em; color: gray;'>(Please click on a classroom)</span></h3>
+""", unsafe_allow_html=True)
+    
     room_clicked = None
     cols = st.columns(3)
 
@@ -71,7 +81,7 @@ with left_col:
 with right_col:
     # --- 地図画像の表示（向き補正あり） ---
     image = ImageOps.exif_transpose(Image.open(image_path))
-    st.image(image, caption=f"センター5号館 {selected_floor}", use_container_width=True)
+    st.image(image, caption=f"センター5号館/Center 5 {selected_floor}", use_container_width=True)
 
 # --- 5. 授業表示（画面下に全体表示） ---
 if room_clicked:
@@ -101,8 +111,8 @@ if room_clicked:
 
         # 「この教室は授業で使用中です」の表示は時限指定ありのみ
         if selected_period is not None:
-            st.info("🔒 この教室は授業で使用中です")
+            st.info("🔒 この教室は授業で使用中です/This classroom is not available")
         
         st.table(display_df)
     else:
-        st.info("🔓 授業は登録されていないので空き教室です！")
+        st.info("🔓 授業は登録されていないので空き教室です！/This classroom is empty!")
