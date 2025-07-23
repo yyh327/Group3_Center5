@@ -39,22 +39,25 @@ room_df["Display"] = room_df["Class name"].fillna("") + "（" + room_df["Teacher
 # ピボットテーブル：時限×曜日
 pivot = room_df.pivot_table(
     index="Period", columns="Day", values="Display", aggfunc=lambda x: " / ".join(x)
-).fillna("🟩 空き")  # ←ここで空欄を空きに変換
+).fillna("")  # 空欄は空文字のまま
+
+# スタイル関数
+def style_table(val):
+    if val == "":
+        return "background-color: #d4f4dd; text-align: center;"  # 緑背景＝空き
+    else:
+        return "background-color: #f0f0f0; text-align: left;"    # 灰背景＝授業
+
+st.dataframe(
+    pivot.style.applymap(style_table),
+    use_container_width=True,
+    height=500
+)
 
 # 表の行・列ラベル整理
 pivot = pivot.reindex(columns=day_order).rename(columns=day_labels)
 pivot.index.name = "時限"
 
-# 表示用に「空き」マークを追加
-styled_pivot = pivot.copy()
-styled_pivot = styled_pivot.replace("", "🟩 空き")
-
-# --- スタイル適用 ---
-def style_table(val):
-    if isinstance(val, str) and "🟩" in val:
-        return "background-color: #d4f4dd; text-align: center;"
-    else:
-        return "background-color: #f0f0f0; text-align: left;"
 
 st.markdown(f"### 📋 {selected_room} の時間割")
 
