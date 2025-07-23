@@ -11,6 +11,8 @@ st.title("🗓️ 教室別 時間割")
 # --- 教室リスト選択 ---
 st.markdown("### 🏫 教室を選んでください")
 
+
+# 教室選択
 floor_3_rooms = ['5301', '5302', '5303', '5304', '5305', '5306', '5307', '5308',
                  '5309', '5310', '5311', '5312', '5313']
 floor_4_rooms = ['5401', '5402', '5403', '5404', '5405', '5406', '5407', '5408',
@@ -19,22 +21,45 @@ all_rooms = sorted(floor_3_rooms + floor_4_rooms)
 
 selected_room = st.selectbox("教室を選択", all_rooms)
 
-# --- データ処理 ---
+# 前処理
 df["Day"] = df["Day"].fillna("")
 df["Period"] = df["Period"].fillna(0).astype(int)
+df["Room"] = df["Room"].astype(str)
 
+# 表示順
 day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 day_labels = {"Monday": "月", "Tuesday": "火", "Wednesday": "水", "Thursday": "木", "Friday": "金"}
 
-# 教室ごとのデータ抽出
-room_df = df[df["Room"].astype(str) == selected_room]
+# 教室別データ
+room_df = df[df["Room"] == selected_room]
 
-# ピボットテーブル形式（曜日 × 時限）
-pivot = room_df.pivot_table(index="Period", columns="Day", values="Class name", aggfunc=lambda x: " / ".join(x)).fillna("")
+# 授業名 + 教員名
+room_df["Display"] = room_df["Class name"].fillna("") + "（" + room_df["Teacher"].fillna("") + "）"
 
-# 列順を整理 & ラベル変更
+# ピボットテーブル：時限×曜日
+pivot = room_df.pivot_table(
+    index="Period", columns="Day", values="Display", aggfunc=lambda x: " / ".join(x)
+).fillna("")
+
+# 表の行・列ラベル整理
 pivot = pivot.reindex(columns=day_order).rename(columns=day_labels)
 pivot.index.name = "時限"
 
+# 表示用に「空き」マークを追加
+styled_pivot = pivot.copy()
+styled_pivot = styled_pivot.replace("", "🟩 空き")
+
+# --- スタイル適用 ---
+def style_table(val):
+    if "🟩" in val:
+        return "background-color: #d4f4dd; text-align: center;"
+    else:
+        return "background-color: #f0f0f0; text-align: left;"
+
 st.markdown(f"### 📋 {selected_room} の時間割")
-st.table(pivot)
+
+st.dataframe(
+    styled_pivot.style.applymap(style_table),
+    use_container_width=True,
+    height=500
+)
