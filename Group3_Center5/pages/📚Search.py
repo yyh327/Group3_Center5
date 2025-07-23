@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import jaconv
 
 st.set_page_config(page_title="授業検索", layout="wide")
 
