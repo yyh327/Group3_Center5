@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="おすすめ空き教室", layout="wide")
+st.set_page_config(page_title="Recommended Available Classroom", layout="wide")
 
 # CSV読み込み
 df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", encoding="shift_jis")
