@@ -4,6 +4,11 @@ from PIL import Image, ImageOps
 
 st.set_page_config(page_title="センター5号館 空き教室検索", layout="wide")
 
+st.markdown("""
+## センター5号館 空き教室検索  
+<span style='font-size: 0.8em; color: gray;'>Center Building 5 – Available Classroom Finder</span>
+""", unsafe_allow_html=True)
+
 # CSV読み込み
 df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", encoding="shift_jis")
 
