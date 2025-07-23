@@ -18,7 +18,7 @@ left_col, right_col = st.columns([ 0.6, 0.3])
 
 with left_col:
     # --- 1. 階数選択 ---
-    floor_options = ["3階", "4階"]
+    floor_options = ["3F", "4F"]
     st.markdown("""
 ### 🏢 階数を選んでください
 <span style='font-size: 1em; color: gray;'>(Please select a floor)</span></h3>
