@@ -25,7 +25,7 @@ SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 # Detect local or deployed environment and set redirect_uri accordingly
 IS_LOCAL = os.environ.get("STREAMLIT_SERVER_PORT") == "8501"
-REDIRECT_URI = "http://localhost:8501/" if IS_LOCAL else "https://group3center5-gnpekcrtfkawfet2ewfsi8.streamlit.app/pages1_calendar"
+REDIRECT_URI = "http://localhost:8501/" if IS_LOCAL else "https://group3center5-gnpekcrtfkawfet2ewfsi8.streamlit.app/Calendar"
 
 def save_token(creds):
     with open(TOKEN_FILE, 'wb') as token:
