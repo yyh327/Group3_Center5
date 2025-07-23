@@ -39,7 +39,7 @@ with left_col:
 ### 📅 曜日を選んでください
 <span style='font-size: 1em; color: gray;'>(Please select a date)</span></h3>
 """, unsafe_allow_html=True)
-    days_jp = ["月/Mon", "火/Tue", "水/Wed", "木/Thu", "金/Fri"]
+    days_jp = ["月", "火", "水", "木", "金"]
     day_mapping = {
         "Monday": "月", "Tuesday": "火", "Wednesday": "水", "Thursday": "木", "Friday": "金"
     }
