@@ -10,7 +10,7 @@ df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", enco
 st.title("🔍 授業名・担当教員で検索")
 
 # 検索窓
-query = st.text_input("授業名または担当教員名を入力してください（例：田中、リテラシー）")
+query = st.text_input("授業名または担当教員名を入力してください（例：鬼丸、課題研究）")
 
 if query:
     # ひらがな→カタカナに変換（あいまい検索対策）
