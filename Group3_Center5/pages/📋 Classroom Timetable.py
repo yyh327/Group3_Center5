@@ -4,10 +4,10 @@ import itertools
 
 st.set_page_config(page_title="時間割", layout="wide")
 
-# CSV読み込み
+# CSVファイルの読み込み
 df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", encoding="shift_jis")
 
-# タイトル表示（HTMLスタイルで補足付き）
+# タイトル表示
 st.markdown("""
 ### 🗓️ 教室別 時間割  
 <span style='font-size: 1em; color: gray;'>(Classroom Timetable)</span>
@@ -19,7 +19,7 @@ st.markdown("""
 <span style='font-size: 1em; color: gray;'>(Please select a classroom)</span>
 """, unsafe_allow_html=True)
 
-# 教室リスト
+# 教室リストを作成
 floor_3_rooms = ['5301', '5302', '5303', '5304', '5305', '5306', '5307', '5308',
                  '5309', '5310', '5311', '5312', '5313']
 floor_4_rooms = ['5401', '5402', '5403', '5404', '5405', '5406', '5407', '5408',
@@ -28,7 +28,7 @@ all_rooms = sorted(floor_3_rooms + floor_4_rooms)
 
 selected_room = st.selectbox("教室を選択 / Select classroom", all_rooms)
 
-# データ前処理
+# データの前処理
 df["Day"] = df["Day"].fillna("")
 df["Period"] = df["Period"].fillna(0).astype(int)
 df["Room"] = df["Room"].astype(str)

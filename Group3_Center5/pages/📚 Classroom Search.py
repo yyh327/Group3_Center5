@@ -4,7 +4,7 @@ import jaconv
 
 st.set_page_config(page_title="授業検索", layout="wide")
 
-# CSV読み込み
+# CSVファイルの読み込み
 df = pd.read_csv("/mount/src/group3_center5/Group3_Center5/pages/data.csv", encoding="shift_jis")
 
 # タイトル・説明表示

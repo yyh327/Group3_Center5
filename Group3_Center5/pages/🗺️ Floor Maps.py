@@ -11,12 +11,12 @@ st.title("センター5号館 空き教室検索")
 st.markdown("""<span style='font-size: 1em; color: gray;'>Center Building 5 – Available Classroom Finder</span>
 """, unsafe_allow_html=True)
 
-# --- 画面を左右に分割 ---
+# 画面を左右に分割
 left_col, right_col = st.columns([ 0.6, 0.3])
 
 
 with left_col:
-    # --- 1. 階数選択 ---
+    # 階数選択
     floor_options = ["3F", "4F"]
     st.markdown("""
 ### 🏢 階数を選んでください
@@ -24,7 +24,7 @@ with left_col:
 """, unsafe_allow_html=True)
     selected_floor = st.radio("", floor_options, horizontal=True)
 
-    # --- 2. 教室リストと画像パス切り替え ---
+    # 教室リスト作成と画像パス切り替え
     if selected_floor == "3階/3F":
         image_path = "/mount/src/group3_center5/Group3_Center5/pages/5goukan3F.png"
         room_list = ['5301', '5302', '5303', '5304', '5305', '5306', '5307', '5308',
@@ -34,7 +34,7 @@ with left_col:
         room_list = ['5401', '5402', '5403', '5404', '5405', '5406', '5407', '5408',
                      '5409', '5410', '5411', '5412', '5413', '5414', '5415', '5416', '5417']
 
-    # --- 3. 曜日選択 ---
+    # 曜日選択
         st.markdown("""
 ### 📅 曜日を選んでください
 <span style='font-size: 1em; color: gray;'>(Please select a date)</span></h3>
@@ -46,7 +46,7 @@ with left_col:
     selected_day_jp = st.radio("", days_jp, horizontal=True)
     selected_day_en = [k for k, v in day_mapping.items() if v == selected_day_jp][0]
 
-    # --- 追加：時限選択 ---
+    # 時限選択
     st.markdown("""
 ### ⏰ 時限を選んでください
 <span style='font-size: 1em; color: gray;'>(Please select a time)</span></h3>
@@ -64,7 +64,7 @@ with left_col:
     selected_period = None if selected_period_label == "すべて/All" else period_map[selected_period_label]
 
 
-    # --- 4. 教室ボタン ---
+    # 教室ボタン
     st.markdown("""
 ### 🏫 教室をクリックしてください
 <span style='font-size: 1em; color: gray;'>(Please click on a classroom)</span></h3>
@@ -78,11 +78,11 @@ with left_col:
             room_clicked = room
 
 with right_col:
-    # --- 地図画像の表示（向き補正あり） ---
+    # 地図画像の表示（向き補正あり）
     image = ImageOps.exif_transpose(Image.open(image_path))
     st.image(image, caption=f"センター5号館/Center 5 {selected_floor}", use_container_width=True)
 
-# --- 5. 授業表示（画面下に全体表示） ---
+# 授業表示（画面下に全体表示）
 if room_clicked:
     st.success(f"✅ {selected_day_jp}曜日 {selected_floor} {room_clicked} を選択しました/{selected_day_jp}, {selected_floor} {room_clicked} is selected")
     
@@ -91,7 +91,7 @@ if room_clicked:
         (df["Room"].astype(str) == room_clicked)
     ]
 
-    # 時限フィルター
+    # 時限のフィルター
     if selected_period is not None:
         filtered = filtered[filtered["Period"] == selected_period]
 
